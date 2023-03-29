@@ -1,4 +1,5 @@
 FROM debian:sid
+#FROM quay.io/centos/centos:stream9
 
 # Install basic tools
 RUN apt-get update && \
@@ -9,6 +10,10 @@ RUN apt-get update && \
     git \
     python3 \
     gosu
+or
+RUN dnf -y update && \
+    dnf -y install sudo \
+    make
 
 # Install specific tools for xxx builds
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -31,6 +36,9 @@ RUN groupadd -r --gid 1000 blduser && useradd --uid 1000 -g blduser blduser
 # Temporary to speed up container development - add apt install
 RUN echo "blduser ALL= NOPASSWD: /usr/bin/apt" > /etc/sudoers.d/blduser \
     && chmod 0440 /etc/sudoers.d/blduser
+or
+RUN echo "blduser ALL= NOPASSWD: /usr/bin/dnf" > /etc/sudoers.d/blduser && \
+    chmod 0440 /etc/sudoers.d/blduser
 
 # Setup env for xxx builds
 ENV XXX=xxx

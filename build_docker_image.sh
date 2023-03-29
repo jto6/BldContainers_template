@@ -30,7 +30,7 @@ esac
 done
 
 # Build build environment image
-docker build --network=host -t ${dname } -f Dockerfile .
+docker build --network=host -t ${_dname} -f Dockerfile .
 
 # Publish docker image
 if [[ ! -z ${_docker_registry} ]]; then

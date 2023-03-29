@@ -4,7 +4,7 @@ Template files for creating a container for a build environment
 ## Intro
 As a template, the basic files needed to create a container for housing a particular build environment are:
 
-1. The container recipe (Dockerfile) itself
+1. The container recipe (`Dockerfile`) itself
 2. A build script that builds the image.  This may be as simple as the `build` command, but can get more
 complex with complex build environments.
 3. An install script that at least sets as alias up for invoking the container image (since
@@ -21,7 +21,13 @@ container.  It may also initialize anything else needed before a build.
 To create a containerized build environment from these templates:
 1. Set names for the container and what it builds (`_what_i_build`, `autoSDbuilder`) in 
 `build_docker_image.sh` and `install.sh`
-
+2. Update `Dockerfile` to use the desired base OS, install the necessary packages, and anything else
+that can be statically installed for the build environment.
+3. Update the Host install script `install.sh` to do any non-container installations, like
+clone git repos.
+4. Update the container based Host setup script `hostsetup.sh` with any remaining one-time Host
+setup.
+5. Add any setup needed each time the container is invoked in `entrypoint.sh`.
 
 ## Using
 

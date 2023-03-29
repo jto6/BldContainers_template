@@ -49,6 +49,12 @@ docker run -it --rm -e LOCAL_USER_ID=`id -u $USER` --network host\
        -v ${_install_edk2_dir}:/app \
        ${_docker_registry}${_dname} /usr/local/bin/hostsetup.sh
 [[ $? == 0 ]] || { echo "Docker runtime not installed or hub not available. Exiting."; exit -1; }
+or
+docker run -it --rm -u `id -u $USER`:`id -g $USER` --network host\
+       -e http_proxy -e https_proxy -e no_proxy \
+       -v ${_install_edk2_dir}:/app \
+       ${_docker_registry}${_dname} /usr/local/bin/hostsetup.sh
+[[ $? == 0 ]] || { echo "Docker runtime not installed or hub not available. Exiting."; exit -1; }
 
 # Setup command aliases
 echo
@@ -57,7 +63,13 @@ echo "alias ${_what_i_build}_builder='docker run -it --rm -e LOCAL_USER_ID=`id -
      "-v ${_install_dir}:/app "\
      "-v $HOME:$HOME "\
      "${_docker_registry}${_dname}'" >> ${_install_dir}/.alias
-  
+or
+echo "alias ${_what_i_build}_builder='docker run -it --rm -u \`id -u $USER\`:\`id -g $USER\` --privileged "\
+     "--network host -e http_proxy -e https_proxy -e no_proxy "\
+     "-v ${_install_dir}:/app "\
+     "-v $HOME:$HOME "\
+     "${_docker_registry}${_dname}'" >> ${_install_dir}/.alias
+
 # Print example actions
 echo "Please run following command to create ${_what_i_build}_builder alias:"
 echo "  source  ${_install_dir}/.alias"; echo
