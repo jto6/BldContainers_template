@@ -22,7 +22,7 @@ usage() {
 
 while getopts :t:d:r:h arg
 do case $arg in
-        d)      _install_dir="$OPTARG";;
+        d)      _install_dir="${OPTARG%/}";;
         r)      _docker_registry="$OPTARG";;
         h)      usage;;
         :)      die "$0: Must supply an argument to -$OPTARG.";;

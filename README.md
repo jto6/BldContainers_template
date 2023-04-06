@@ -28,6 +28,7 @@ clone git repos.
 4. Update the container based Host setup script `hostsetup.sh` with any remaining one-time Host
 setup.
 5. Add any setup needed each time the container is invoked in `entrypoint.sh`.
+6. Update the README.md with build and usage instructions for this particular build environment.
 
 ## Using
 
